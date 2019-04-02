@@ -51,7 +51,7 @@ public class AutenticadorCliente implements Filter {
         HttpSession sesion = req.getSession();
         Cliente cliente = (Cliente) sesion.getAttribute("cliente");
         if (cliente == null) {
-            String returnURL = req.getRequestURL() + "?" + req.getQueryString();
+            String returnURL = req.getRequestURL() + "";
             sesion.setAttribute("returnURL", returnURL);
             resp.sendRedirect(req.getContextPath() + "/Login");
         } else {

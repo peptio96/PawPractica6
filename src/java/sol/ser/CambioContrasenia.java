@@ -8,6 +8,7 @@ package sol.ser;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +23,9 @@ import paw.util.UtilesString;
  * @author alruiz_o
  */
 public class CambioContrasenia extends HttpServlet {
+
     private GestorBD gbd = new GestorBD();
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -38,10 +41,11 @@ public class CambioContrasenia extends HttpServlet {
         //recoge codigo de cambio de la peticion
         request.setCharacterEncoding("UTF-8");
         String uuid = request.getParameter("cc");
-        if(!UtilesString.isVacia(uuid)){
+        if (!UtilesString.isVacia(uuid)) {
             HttpSession sesion = request.getSession();
             sesion.setAttribute("uuid", uuid);
-            response.sendRedirect("cambioContrasenia.html");
+            RequestDispatcher rd = request.getRequestDispatcher("cambioContrasenia.html");
+            rd.forward(request, response);
         } else {
             request.setAttribute("link", "error.jsp");
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Petición de cambio de contraseña inválida. Es posible que el código de cambio haya expirado. Vuelva a solicitar el cambio.");
@@ -61,7 +65,7 @@ public class CambioContrasenia extends HttpServlet {
             throws ServletException, IOException {
         String pwd = request.getParameter("pwd");
         String rpwd = request.getParameter("rpwd");
-        if(pwd.equals(rpwd)){
+        if (pwd.equals(rpwd)) {
             HttpSession sesion = request.getSession();
             String uuid = sesion.getAttribute("uuid").toString();
             try {
@@ -70,9 +74,9 @@ public class CambioContrasenia extends HttpServlet {
             } catch (ExcepcionDeAplicacion ex) {
                 Logger.getLogger(CambioContrasenia.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else{
+        } else {
             //contraseñas incorrectas
         }
-        
+
     }
 }

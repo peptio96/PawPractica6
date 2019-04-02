@@ -37,7 +37,8 @@ public class Login extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect("entrada.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("entrada.jsp");
+        rd.forward(request, response);
     }
 
     /**
@@ -69,7 +70,7 @@ public class Login extends HttpServlet {
                         return;
                     } else {
                         // Dirección por defecto
-                        response.sendRedirect("clientes/AreaClientes");
+                        response.sendRedirect("clientes/AreaCliente");
                         return;
                     }
                 } else {

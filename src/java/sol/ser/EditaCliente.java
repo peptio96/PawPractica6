@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +25,9 @@ import paw.util.servlet.UtilesServlet;
  * @author alruiz_o
  */
 public class EditaCliente extends HttpServlet {
+
     private GestorBD gbd = new GestorBD();
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -37,7 +40,8 @@ public class EditaCliente extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.sendRedirect("../clientes/modificarDatosCliente.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("../clientes/modificarDatosCliente.jsp");
+        rd.forward(request, response);
     }
 
     /**
@@ -56,10 +60,10 @@ public class EditaCliente extends HttpServlet {
         Direccion direccion = (Direccion) UtilesServlet.populateBean("paw.model.Direccion", request);
         cliente.setDireccion(direccion);
         try {
-            if(gbd.editaCliente(cliente)){
-                response.sendRedirect("../clientes/index.jsp");
+            if (gbd.editaCliente(cliente)) {
+                response.sendRedirect("clientes/AreaCliente");
             }
-            
+
         } catch (ExcepcionDeAplicacion ex) {
             Logger.getLogger(EditaCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
