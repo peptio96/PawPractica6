@@ -54,17 +54,28 @@ public class Login extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         usuario = request.getParameter("usuario");
         contrasena = request.getParameter("contrasena");
+        alerta = "";
         try {
             if ((UtilesString.isVacia(usuario)) || (UtilesString.isVacia(contrasena))) {
                 alerta = "No has introducido el nombre o la contraseña";
             } else {
+                HttpSession sesion = request.getSession();
                 if (gbd.comprobarLogin(usuario, contrasena)) {
-                    HttpSession sesion = request.getSession();
                     sesion.setAttribute("cliente", gbd.getClienteByUserName(usuario));
-                    response.sendRedirect("clientes/AreaCliente");
-                    return;
+                    String returnURL = (String) sesion.getAttribute("returnURL");
+                    if (returnURL != null) {
+                        sesion.removeAttribute("returnURL"); // Quitarla de la sesión
+                        response.sendRedirect(returnURL);
+                        return;
+                    } else {
+                        // Dirección por defecto
+                        response.sendRedirect("clientes/AreaClientes");
+                        return;
+                    }
                 } else {
-                    alerta = "El usuario o la contraseña no son correctos";
+                    sesion.invalidate();
+                    response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                    return;
                 }
             }
             request.setAttribute("alerta", alerta);
