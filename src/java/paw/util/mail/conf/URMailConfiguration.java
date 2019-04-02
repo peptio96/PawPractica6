@@ -3,7 +3,7 @@ package paw.util.mail.conf;
 public class URMailConfiguration extends ConfiguracionCorreo {
 
   public String getHost() {
-    return "smtp.unirioja.es";
+    return "smtp.gmail.com";
   }
 
   public String getPort() {
@@ -15,13 +15,13 @@ public class URMailConfiguration extends ConfiguracionCorreo {
   }
 
   public String getUser() {
-    throw new java.lang.IllegalArgumentException("Debes especificar un valor de usuario que devolver");
-//    return "... pon tu usuario aqui ...";
+    //throw new java.lang.IllegalArgumentException("Debes especificar un valor de usuario que devolver");
+    return "pawaplicaciones@gmail.com";
   }
 
   public String getPassword() {
-    throw new java.lang.IllegalArgumentException("Debes especificar un valor de contraseña que devolver");
-//    return "... pon tu contraseña aqui ...";
+    //throw new java.lang.IllegalArgumentException("Debes especificar un valor de contraseña que devolver");
+    return "a1s2d3f4g";
   }
 
   public String getAuth() {
