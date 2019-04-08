@@ -56,6 +56,22 @@
         <servlet-name>PedidosCliente</servlet-name>
         <servlet-class>sol.ser.PedidosCliente</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>VerPedido</servlet-name>
+        <servlet-class>sol.ser.VerPedido</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ConfirmaAnulacion</servlet-name>
+        <servlet-class>sol.ser.ConfirmaAnulacion</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PedidoRealizacion</servlet-name>
+        <servlet-class>sol.ser.PedidoRealizacion</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GestionaPedido</servlet-name>
+        <servlet-class>sol.ser.GestionaPedido</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>BuscarArticulos</servlet-name>
         <url-pattern>/BuscarArticulos</url-pattern>
@@ -103,6 +119,22 @@
     <servlet-mapping>
         <servlet-name>PedidosCliente</servlet-name>
         <url-pattern>/clientes/PedidosCliente</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VerPedido</servlet-name>
+        <url-pattern>/clientes/VerPedido</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConfirmaAnulacion</servlet-name>
+        <url-pattern>/clientes/ConfirmaAnulacion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PedidoRealizacion</servlet-name>
+        <url-pattern>/clientes/PedidoRealizacion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GestionaPedido</servlet-name>
+        <url-pattern>/clientes/GestionaPedido</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

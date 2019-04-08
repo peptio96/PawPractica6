@@ -6,6 +6,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
     <head>
@@ -22,44 +23,7 @@
     </head>
 
     <body >
-        <div class="logo"><a href="../index.html"><img src="../img/LogoElectrosa200.png" border="0"></a></div>
-
-
-        <div class="sombra">
-            <div class="nucleo">
-                <div id="lang">
-                    <a href="index.html">Español</a> &nbsp; | &nbsp; <a href="index.html">English</a>
-                </div>
-            </div>
-        </div>  
-
-        <div class="barra_menus">
-            <div class="pestanias">
-                <div class="grupoPestanias">
-                    <div class="pestaniaSel">Para usuarios</div>
-                    <div class="pestaniaNoSel">Intranet</div>
-                </div>
-            </div>
-
-            <div id="menu">
-                <ul>
-                    <li>
-                        <a href="../BuscarArticulos">Comprar </a>
-                    </li>
-                    <li>
-                        <a href="PedidosCliente">Mis pedidos </a>
-                    </li>
-                    <li>
-                        <a href="EditaCliente">Cambiar datos personales </a>	
-                    </li>
-                    <li>
-                        <a href="../Salir">Cerrar sesión </a>	
-                    </li>
-                </ul>
-                <div style="clear: left;"></div>
-            </div>
-        </div> 
-
+        <%@include file="cabeceraRegistrado.html" %>
         <div class="sombra">
             <div class="nucleo">
                 <div id="migas">
@@ -74,6 +38,7 @@
                     <h1>Sus pedidos    </h1>
                     <a name="inicio"></a>
                     <p>Estos son sus pedidos. </p>
+                    <p>Actualmente, disponible de un <a href="../clientes/PedidoRealizacion">pedido en realización</a></p>
                     <p>&nbsp;<span class="atajo"><a href="#comp">Completados</a> &nbsp; | &nbsp; <a href="#anul">Anulados</a></span></p>
 
                     <table width="95%">
@@ -96,24 +61,17 @@
                             <td>Direcci&oacute;n de entrega </td>
                             <td>Importe </td>
                         </tr>            
-                        <c:forEach var="pedido" items="${pedidosPendientes}">
-                            <tr class="par">
+                        <c:forEach var="pedidoPendiente" items="${pedidosPendientes}" varStatus="contad">
+                            <c:if test="${contad.count%2 == 0}"><tr class="par"></c:if>
+                            <c:if test="${contad.count%2 != 0}"><tr></c:if>
                                 <td style="text-align: center"><img src="../img/pdf.gif" title="Descargar en PDF"/></td>
-                                <td style="text-align: center"><img src="../img/cancel.png" title="Cancelar el pedido"/></td>
-                                <td>${pedido.codigo}</td>
-                                <td><fmt:formatDate value="${pedido.fechaCierre.time}"/>:</td>
-                            <td>${pedido.dirEntrega}</td>
-                            <td style="text-align: right"><fmt:formatNumber type="currency" value="${pedido.importe}"/> &euro;</td>
+                                <td style="text-align: center"><a href="VerPedido?cp=${pedidoPendiente.codigo}"><img src="../img/cancel.png" title="Cancelar el pedido"/></td>
+                                <td><a href="VerPedido?cp=${pedidoPendiente.codigo}">${pedidoPendiente.codigo}</a></td>
+                                <td><fmt:formatDate value="${pedidoPendiente.fechaCierre.time}"/></td>
+                                <td>${pedidoPendiente.dirEntrega}</td>
+                                <td style="text-align: right"><fmt:formatNumber type="currency" value="${pedidoPendiente.importe}"/></td>
                             </tr>
                         </c:forEach>
-                        <tr >
-                            <td style="text-align: center"><img src="../img/pdf.gif" title="Descargar en PDF"/></td>
-                            <td style="text-align: center"><img src="../img/cancel.png" title="Cancelar el pedido"/></td>
-                            <td>P000147-12</td>
-                            <td>24-feb-2012</td>
-                            <td>Jorge Vigón 23, Logroño.  26004- La Rioja </td>
-                            <td style="text-align: right">6.564 &euro;</td>
-                        </tr>
                     </table>
 
                     <span class="atajo"><a href="#inicio">Inicio</a></span>
@@ -138,21 +96,16 @@
                             <td>Direcci&oacute;n de entrega </td>
                             <td>Importe </td>
                         </tr>
-                        <tr class="par">
-                            <td style="text-align: center"><img src="../img/pdf.gif" title="Descargar en PDF"/></td>
-                            <td>P000004-08</td>
-                            <td>11-dic-2008</td>
-                            <td>Jorge Vigón 23, Logroño.  26004- La Rioja </td>
-                            <td style="text-align: right">11.324 &euro;</td>
-                        </tr>
-
-                        <tr>
-                            <td style="text-align: center"><img src="../img/pdf.gif" title="Descargar en PDF"/></td>
-                            <td>P000005-08</td>
-                            <td>03-abr-2008</td>
-                            <td>Jorge Vigón 23, Logroño.  26004- La Rioja </td>
-                            <td style="text-align: right">20.305 &euro;</td>
-                        </tr>
+                        <c:forEach var="pedidoCompletado" items="${pedidosCompletados}" varStatus="contador">
+                            <c:if test="${contador.count%2 == 0}"><tr class="par"></c:if>
+                            <c:if test="${contador.count%2 != 0}"><tr></c:if>
+                                <td style="text-align: center"><img src="../img/pdf.gif" title="Descargar en PDF"/></td>
+                                <td><a href="VerPedido?cp=${pedidoCompletado.codigo}">${pedidoCompletado.codigo}</a></td>
+                                <td><fmt:formatDate value="${pedidoCompletado.fechaCierre.time}"/></td>
+                                <td>${pedidoCompletado.dirEntrega}</td>
+                                <td style="text-align: right"><fmt:formatNumber type="currency" value="${pedidoCompletado.importe}"/></td>
+                            </tr>
+                        </c:forEach>
                     </table>
 
                     <span class="atajo"><a href="#inicio">Inicio</a></span>
@@ -175,19 +128,15 @@
                             <td>Fecha cierre</td>
                             <td>Fecha anulación</td>
                         </tr>            
-                        <tr class="par">
-                            <td style="text-align: center"><img src="../img/pdf.gif" title="Descargar en PDF"/></td>
-                            <td>P000053-10</td>
-                            <td>23-feb-2010</td>
-                            <td>24-feb-2012</td>
-                        </tr>
-
-                        <tr >
-                            <td style="text-align: center"><img src="../img/pdf.gif" title="Descargar en PDF"/></td>
-                            <td>P000054-10</td>
-                            <td>13-dic-2010</td>
-                            <td>24-feb-2012</td>
-                        </tr>
+                        <c:forEach var="pedidoAnulado" items="${pedidosAnulados}" varStatus="cuenta">
+                            <c:if test="${cuenta.count%2 == 0}"><tr class="par"></c:if>
+                            <c:if test="${cuenta.count%2 != 0}"><tr></c:if>
+                                <td style="text-align: center"><img src="../img/pdf.gif" title="Descargar en PDF"/></td>
+                                <td>${pedidoAnulado.codigo}</td>
+                                <td><fmt:formatDate value="${pedidoAnulado.fechaCierre.time}"/></td>
+                                <td><fmt:formatDate value="${pedidoAnulado.fechaAnulacion.time}"/></td>
+                            </tr>
+                        </c:forEach>
                     </table>
 
                     <span class="atajo"><a href="#inicio">Inicio</a></span>
@@ -198,13 +147,7 @@
 
             <div class="separa"></div>
 
-            <div class="pie">
-                <span class="pie_izda">
-                    <a href="mailto:francisco.garcia@unirioja.es">Contacto</a> &nbsp; | &nbsp; <a href="../mapa.html">Mapa</a> </span>
-                <span class="pie_dcha">
-                    &copy; 2012 Francisco J. García Izquierdo  </span>
-                <div class="clear"></div>  
-            </div>
+            <%@include file="../pie.html" %>
 
         </div>
     </body>

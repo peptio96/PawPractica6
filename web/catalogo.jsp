@@ -22,7 +22,8 @@
         <!--    <link href="css/catalogoLista.css" rel="stylesheet" media="all" type="text/css"> -->
     </head>
     <body>
-    <jsp:include page="cabecera.html"/>
+        <c:if test="${cliente==null}"><jsp:include page="cabecera.html"/></c:if>
+        <c:if test="${cliente!=null}"><jsp:include page="clientes/cabeceraRegistrado.html"/></c:if>
     <div class="sombra">
         <div class="nucleo">
 

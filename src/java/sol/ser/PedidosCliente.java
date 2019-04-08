@@ -6,7 +6,6 @@
 package sol.ser;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -15,18 +14,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import paw.bd.GestorBD;
 import paw.bd.GestorBDPedidos;
 import paw.model.Cliente;
 import paw.model.ExcepcionDeAplicacion;
-import paw.model.PedidoEnRealizacion;
 
 /**
  *
  * @author alruiz_o
  */
 public class PedidosCliente extends HttpServlet {
-    private GestorBDPedidos gbdP = new GestorBDPedidos();
+
+    private static GestorBDPedidos gbdP = new GestorBDPedidos();
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -44,12 +42,12 @@ public class PedidosCliente extends HttpServlet {
             HttpSession sesion = request.getSession();
             Cliente cliente = (Cliente) sesion.getAttribute("cliente");
             String codigoCliente = cliente.getCodigo();
-            if((codigoCliente == null) || (codigoCliente.equals(""))){
+            if ((codigoCliente == null) || (codigoCliente.equals(""))) {
                 
             }
             request.setAttribute("pedidosPendientes", gbdP.getPedidosPendientes(codigoCliente));
             request.setAttribute("pedidosCompletados", gbdP.getPedidosCompletados(codigoCliente));
-            request.setAttribute("pedidosAnulados", gbdP.getPedidoAnulado(codigoCliente));
+            request.setAttribute("pedidosAnulados", gbdP.getPedidosAnulados(codigoCliente));
             RequestDispatcher rd = request.getRequestDispatcher("../clientes/pedidosCliente.jsp");
             rd.forward(request, response);
         } catch (ExcepcionDeAplicacion ex) {

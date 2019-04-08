@@ -6,7 +6,6 @@
 package sol.ser;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,14 +15,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import paw.bd.GestorBD;
 import paw.model.Cliente;
 import paw.model.ExcepcionDeAplicacion;
 import paw.util.mail.DatosCorreo;
 import paw.util.mail.GestorCorreo;
 import paw.util.mail.conf.ConfiguracionCorreo;
-import paw.util.mail.conf.GmailEmailConfiguration;
 import paw.util.mail.conf.URMailConfiguration;
 
 /**
@@ -48,7 +45,6 @@ public class RecuerdoContrasenia extends HttpServlet {
             String usuario = request.getParameter("usr");
             Cliente cliente = gbd.getClienteByUserName(usuario);
             if( cliente != null ){
-                URMailConfiguration correoAdmin = new URMailConfiguration();
                 DatosCorreo datosCorreo = new DatosCorreo(cliente.getEmail());
                 datosCorreo.setBody("Usa el siguiente enlace para acceder a una página donde podrás cambiar tu contraseña: \n" +
                                                             "http://"+request.getServerName()+
