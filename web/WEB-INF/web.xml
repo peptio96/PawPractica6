@@ -52,6 +52,10 @@
         <servlet-name>Salir</servlet-name>
         <servlet-class>sol.ser.Salir</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PedidosCliente</servlet-name>
+        <servlet-class>sol.ser.PedidosCliente</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>BuscarArticulos</servlet-name>
         <url-pattern>/BuscarArticulos</url-pattern>
@@ -96,6 +100,10 @@
         <error-code>404</error-code>
         <location>/error404.jsp</location>
     </error-page>
+    <servlet-mapping>
+        <servlet-name>PedidosCliente</servlet-name>
+        <url-pattern>/clientes/PedidosCliente</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
