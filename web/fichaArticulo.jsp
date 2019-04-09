@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
     <head>
@@ -15,8 +16,8 @@
         <meta name="language" content="es-ES">
         <meta name="robots" content="index,follow">
 
-        <link href="../css/electrosa.css" rel="stylesheet" media="all" type="text/css">
-        <link href="../css/fichaProducto.css" rel="stylesheet" media="all" type="text/css">
+        <link href="${pageContext.request.contextPath}/css/electrosa.css" rel="stylesheet" media="all" type="text/css">
+        <link href="${pageContext.request.contextPath}/css/fichaProducto.css" rel="stylesheet" media="all" type="text/css">
     </head>
 
     <body>

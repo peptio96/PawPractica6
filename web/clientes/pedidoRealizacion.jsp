@@ -54,7 +54,7 @@
                             </tr>
                             <c:forEach var="lineaRealizacion" items="${pedidoRealizacion.lineas}" varStatus="contad">
                             <tr >
-                                <td width="6%" style="text-align:center"><a href="GestionaPedido?accion=Quitar&cl=L-87601"><img src="../img/cancel.png" alt="Quitar del pedido" border="0" title="Quitar del pedido"></a></td>
+                                <td width="6%" style="text-align:center"><a href="GestionaPedido?accion=Quitar&cl=${lineaRealizacion.codigo}"><img src="../img/cancel.png" alt="Quitar del pedido" border="0" title="Quitar del pedido"></a></td>
                                 <td width="58%"><span class="codigo">${lineaRealizacion.articulo.codigo}</span> - <br/><span class="descr">${lineaRealizacion.articulo.nombre}</span></td>
                                 <td><fmt:formatNumber type="currency" value="${lineaRealizacion.articulo.pvp}"/></td>
                                 <td>

@@ -112,7 +112,7 @@
                     <c:forEach var="a" items="${articulos}">
                         <li class="item redondeo">
                             <div class="foto">
-                                <a href="../pr6/FichaArticulo?cart=${a.codigo}"><img src="img/fotosElectr/${a.foto}" alt="${a.nombre}" longdesc="${a.descripcion}" width="80"></a>
+                                <a href="${pageContext.request.contextPath}/FichaArticulo?cart=${a.codigo}"><img src="img/fotosElectr/${a.foto}" alt="${a.nombre}" longdesc="${a.descripcion}" width="80"></a>
                             </div>
                             <div class="datos">
                                 <span>${a.nombre}</span>
@@ -120,10 +120,12 @@
                                     <span class="oferta">${a.pvp} &euro;</span>
                                 </div>
                                 <div class="carro">
-                                    <img src="img/shopcartadd_16x16.png" title="Añadir a mi carro de la compra">
+                                    <a href="${pageContext.request.contextPath}/clientes/GestionaPedido?accion=Comprar&ca=${a.codigo}">
+                                        <img src="${pageContext.request.contextPath}/img/shopcartadd_16x16.png" title="Añadir a mi carro de la compra">
+                                    </a>
                                 </div>
                             </div>			  
-                            <div class="codigo"><a href="../pr6/FichaArticulo?cart=${a.nombre}">${a.codigo}</a></div>
+                            <div class="codigo"><a href="${pageContext.request.contextPath}/FichaArticulo?cart=${a.codigo}">${a.codigo}</a></div>
 
                         </li>			
                     </c:forEach>
