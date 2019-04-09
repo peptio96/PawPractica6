@@ -21,7 +21,6 @@ import paw.model.ExcepcionDeAplicacion;
 import paw.util.mail.DatosCorreo;
 import paw.util.mail.GestorCorreo;
 import paw.util.mail.conf.ConfiguracionCorreo;
-import paw.util.mail.conf.URMailConfiguration;
 
 /**
  *

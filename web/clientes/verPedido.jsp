@@ -83,7 +83,7 @@
                                 <td style="text-align: right"><fmt:formatNumber type="currency" value="${linea.articulo.pvp}"/></td>
                                 <td style="text-align: right"><fmt:formatNumber type="currency" value="${linea.precioReal}"/></td>
                                 <td><fmt:formatDate pattern="dd/MM/YYYY" value="${linea.fechaEntregaDeseada.time}"/></td>
-                                <td><c:if test="${linea.fechaEntregaPrevista==null}">S.D.*</c:if><c:if test="${linea.fechaEntregaPrevista!=null}"></c:if><fmt:formatDate value="${linea.fechaEntregaPrevista.time}"/></td>
+                                <td><c:if test="${linea.fechaEntregaPrevista==null}">S.D.*</c:if><c:if test="${linea.fechaEntregaPrevista!=null}"></c:if><fmt:formatDate pattern="dd/MM/YYYY" value="${linea.fechaEntregaPrevista.time}"/></td>
                                 </tr>
                         </c:forEach>
                     </table>

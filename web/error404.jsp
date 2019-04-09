@@ -17,7 +17,7 @@
         <meta name="language" content="es-ES">
         <meta name="robots" content="index,follow">
 
-        <link href="css/electrosa.css" rel="stylesheet" media="all" type="text/css">
+        <link href="../css/electrosa.css" rel="stylesheet" media="all" type="text/css">
     </head>
     <body>
         <c:if test="${cliente==null}"><jsp:include page="cabecera.html"/></c:if>
@@ -31,7 +31,7 @@
                     </div>
 
                     <div class="contenido">
-                        <div style="float:left"><img src="img/alerta.png"></div>
+                        <div style="float:left"><img src="../img/alerta.png"></div>
                         <div class="error">
                             <div>Error 404, Recurso inexistente : 
                             <c:if test="${cart != null}">
@@ -42,14 +42,17 @@
                             </c:if>
 
 
-                        <div class="errorb"><a href="index.html">Salir de aqui</a></div>
+                        <div class="errorb">
+                            <c:if test="${cliente==null}"><a href="index.html">Salir de aqui</a></c:if>
+                            <c:if test="${cliente!=null}"><a href="index.jsp">Salir de aqui</a></c:if>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+
                     </div>
-                    <div class="clear"></div>
-
                 </div>
-            </div>
 
-            <div class="separa"></div>
+                <div class="separa"></div>
 
             <jsp:include page="pie.html"/>
 

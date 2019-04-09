@@ -58,10 +58,10 @@
                                 <td width="58%"><span class="codigo">${lineaRealizacion.articulo.codigo}</span> - <br/><span class="descr">${lineaRealizacion.articulo.nombre}</span></td>
                                 <td><fmt:formatNumber type="currency" value="${lineaRealizacion.articulo.pvp}"/></td>
                                 <td>
-                                    <input class="cantidad" type="text" name="textfield" size="3" value="${lineaRealizacion.cantidad}">
+                                    <input class="cantidad" type="text" name="C_textfield" size="3" value="${lineaRealizacion.cantidad}">
                                 </td>
                                 <td>
-                                    <input type="text" name="textfield" size="10" value="<fmt:formatDate pattern="dd/MM/YYYY" value="${lineaRealizacion.fechaEntregaDeseada.time}"/>">			  
+                                    <input type="text" name="F_textfield" size="10" value="<fmt:formatDate pattern="dd/MM/YYYY" value="${lineaRealizacion.fechaEntregaDeseada.time}"/>">			  
                                 </td>
                             </tr>
                             </c:forEach>

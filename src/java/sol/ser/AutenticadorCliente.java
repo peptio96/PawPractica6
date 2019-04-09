@@ -6,9 +6,6 @@
 package sol.ser;
 
 import java.io.IOException;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import static java.rmi.server.LogStream.log;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;

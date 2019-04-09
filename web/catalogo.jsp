@@ -112,7 +112,7 @@
                     <c:forEach var="a" items="${articulos}">
                         <li class="item redondeo">
                             <div class="foto">
-                                <a href="FichaArticulo?cart=${a.codigo}"><img src="img/fotosElectr/${a.foto}" alt="${a.nombre}" longdesc="${a.descripcion}" width="80"></a>
+                                <a href="../pr6/FichaArticulo?cart=${a.codigo}"><img src="img/fotosElectr/${a.foto}" alt="${a.nombre}" longdesc="${a.descripcion}" width="80"></a>
                             </div>
                             <div class="datos">
                                 <span>${a.nombre}</span>
@@ -123,7 +123,7 @@
                                     <img src="img/shopcartadd_16x16.png" title="Añadir a mi carro de la compra">
                                 </div>
                             </div>			  
-                            <div class="codigo"><a href="FichaArticulo?cart=${a.nombre}">${a.codigo}</a></div>
+                            <div class="codigo"><a href="../pr6/FichaArticulo?cart=${a.nombre}">${a.codigo}</a></div>
 
                         </li>			
                     </c:forEach>
