@@ -6,6 +6,8 @@
 package sol.ser;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -16,10 +18,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import paw.bd.GestorBD;
 import paw.bd.GestorBDPedidos;
-import paw.model.Articulo;
 import paw.model.Cliente;
 import paw.model.ExcepcionDeAplicacion;
+import paw.model.LineaEnRealizacion;
 import paw.model.PedidoEnRealizacion;
+import paw.util.servlet.ParameterParser;
 
 /**
  *
@@ -75,8 +78,40 @@ public class GestionaPedido extends HttpServlet {
                 rd.forward(request, response);
                 break;
             case "Seguir comprando":
+                String urlAnterior = request.getRequestURI();
+
+                //String urlAnterior = request.getAttribute("javax.servlet.forward.request_uri") request.getHeader("Referer")
+                if (urlAnterior.contains("BuscarArticulos")) {
+                    response.sendRedirect(urlAnterior);
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/BuscarArticulos");
+                }
                 break;
             case "Guardar pedido":
+                String codigoArticulo = request.getParameter("ca");
+                if (pedidoRealizacion == null) {
+                    try {
+                        pedidoRealizacion = gbdP.getPedidoEnRealizacion(cliente.getCodigo());
+                        if (pedidoRealizacion != null) {
+                            pedidoRealizacion.addLinea(gbd.getArticulo(codigoArticulo));
+
+                        } else {
+                            pedidoRealizacion = new PedidoEnRealizacion(cliente);
+                            pedidoRealizacion.addLinea(gbd.getArticulo(codigoArticulo));
+                        }
+                    } catch (ExcepcionDeAplicacion ex) {
+                        Logger.getLogger(PedidoRealizacion.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    sesion.setAttribute("pedidoRealizacion", pedidoRealizacion);
+                } else {
+                    try {
+                        pedidoRealizacion.addLinea(gbd.getArticulo(codigoArticulo));
+                    } catch (ExcepcionDeAplicacion ex) {
+                        Logger.getLogger(GestionaPedido.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                RequestDispatcher resd = request.getRequestDispatcher("/clientes/pedidoRealizacion.jsp");
+                resd.forward(request, response);
                 break;
             case "Quitar":
                 String codigoLinea = request.getParameter("cl");
@@ -145,5 +180,24 @@ public class GestionaPedido extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         doGet(request, response);
+    }
+
+    private void procesaParams(PedidoEnRealizacion pedido, HttpServletRequest req) {
+        ParameterParser pp = new ParameterParser(req);
+        Enumeration<String> pnames = req.getParameterNames();
+        while (pnames.hasMoreElements()) {
+            String paramName = pnames.nextElement();
+            if (paramName.startsWith("C_")) {
+                String codLinea = paramName.substring(2);
+                LineaEnRealizacion linea = pedido.getLinea(codLinea);
+                int cantidad = pp.getIntParameter(paramName, 1);
+                linea.setCantidad(cantidad);
+            } else if (paramName.startsWith("F_")) {
+                String codLinea = paramName.substring(2);
+                LineaEnRealizacion linea = pedido.getLinea(codLinea);
+                Calendar fe = pp.getCalendarParameter(paramName, "dd/MM/yyyy", Calendar.getInstance());
+                linea.setFechaEntregaDeseada(fe);
+            }
+        }
     }
 }
