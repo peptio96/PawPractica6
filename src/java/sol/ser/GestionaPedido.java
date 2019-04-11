@@ -74,41 +74,46 @@ public class GestionaPedido extends HttpServlet {
                         Logger.getLogger(GestionaPedido.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
+                String urlAnterior = request.getHeader("Referer");
+                if(urlAnterior.contains("BuscarArticulos")){
+                    sesion.setAttribute("urlAnterior", urlAnterior);
+                }
                 RequestDispatcher rd = request.getRequestDispatcher("/clientes/pedidoRealizacion.jsp");
                 rd.forward(request, response);
                 break;
             case "Seguir comprando":
-                String urlAnterior = request.getRequestURI();
+                String anterior = (String) sesion.getAttribute("urlAnterior");
+                
 
                 //String urlAnterior = request.getAttribute("javax.servlet.forward.request_uri") request.getHeader("Referer")
-                if (urlAnterior.contains("BuscarArticulos")) {
-                    response.sendRedirect(urlAnterior);
-                } else {
+                if (anterior==null) {
                     response.sendRedirect(request.getContextPath() + "/BuscarArticulos");
+                } else {
+                    response.sendRedirect(anterior);
                 }
                 break;
             case "Guardar pedido":
-                String codigoArticulo = request.getParameter("ca");
+                //String codigoArticulo = request.getParameter("ca");
                 if (pedidoRealizacion == null) {
                     try {
                         pedidoRealizacion = gbdP.getPedidoEnRealizacion(cliente.getCodigo());
                         if (pedidoRealizacion != null) {
-                            pedidoRealizacion.addLinea(gbd.getArticulo(codigoArticulo));
+                            //pedidoRealizacion.addLinea(gbd.getArticulo(codigoArticulo));
 
                         } else {
                             pedidoRealizacion = new PedidoEnRealizacion(cliente);
-                            pedidoRealizacion.addLinea(gbd.getArticulo(codigoArticulo));
+                            //pedidoRealizacion.addLinea(gbd.getArticulo(codigoArticulo));
                         }
                     } catch (ExcepcionDeAplicacion ex) {
                         Logger.getLogger(PedidoRealizacion.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     sesion.setAttribute("pedidoRealizacion", pedidoRealizacion);
                 } else {
-                    try {
-                        pedidoRealizacion.addLinea(gbd.getArticulo(codigoArticulo));
-                    } catch (ExcepcionDeAplicacion ex) {
-                        Logger.getLogger(GestionaPedido.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    //try {
+                        //pedidoRealizacion.addLinea(gbd.getArticulo(codigoArticulo));
+                    //} catch (ExcepcionDeAplicacion ex) {
+                        //Logger.getLogger(GestionaPedido.class.getName()).log(Level.SEVERE, null, ex);
+                    //}
                 }
                 RequestDispatcher resd = request.getRequestDispatcher("/clientes/pedidoRealizacion.jsp");
                 resd.forward(request, response);
