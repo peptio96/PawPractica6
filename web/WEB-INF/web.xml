@@ -72,6 +72,10 @@
         <servlet-name>GestionaPedido</servlet-name>
         <servlet-class>sol.ser.GestionaPedido</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CierraPedido</servlet-name>
+        <servlet-class>sol.ser.CierraPedido</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>BuscarArticulos</servlet-name>
         <url-pattern>/BuscarArticulos</url-pattern>
@@ -135,6 +139,10 @@
     <servlet-mapping>
         <servlet-name>GestionaPedido</servlet-name>
         <url-pattern>/clientes/GestionaPedido</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CierraPedido</servlet-name>
+        <url-pattern>/clientes/CierraPedido</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

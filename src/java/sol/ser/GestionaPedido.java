@@ -46,7 +46,6 @@ public class GestionaPedido extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String valorAccion = request.getParameter("accion");
-
         HttpSession sesion = request.getSession();
         Cliente cliente = (Cliente) sesion.getAttribute("cliente");
         PedidoEnRealizacion pedidoRealizacion = (PedidoEnRealizacion) sesion.getAttribute("pedidoRealizacion");
@@ -75,55 +74,56 @@ public class GestionaPedido extends HttpServlet {
                     }
                 }
                 String urlAnterior = request.getHeader("Referer");
-                if(urlAnterior.contains("BuscarArticulos")){
+                if (urlAnterior.contains("BuscarArticulos")) {
                     sesion.setAttribute("urlAnterior", urlAnterior);
                 }
-                RequestDispatcher rd = request.getRequestDispatcher("/clientes/pedidoRealizacion.jsp");
-                rd.forward(request, response);
+                response.sendRedirect("PedidoRealizacion");
                 break;
             case "Seguir comprando":
                 String anterior = (String) sesion.getAttribute("urlAnterior");
-                
-
-                //String urlAnterior = request.getAttribute("javax.servlet.forward.request_uri") request.getHeader("Referer")
-                if (anterior==null) {
+                if (pedidoRealizacion == null) {
+                    try {
+                        pedidoRealizacion = gbdP.getPedidoEnRealizacion(cliente.getCodigo());
+                        if (pedidoRealizacion != null) {
+                            procesaParams(pedidoRealizacion, request);
+                        }
+                    } catch (ExcepcionDeAplicacion ex) {
+                        Logger.getLogger(PedidoRealizacion.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    procesaParams(pedidoRealizacion, request);
+                }
+                if (anterior == null) {
                     response.sendRedirect(request.getContextPath() + "/BuscarArticulos");
                 } else {
                     response.sendRedirect(anterior);
                 }
                 break;
             case "Guardar pedido":
-                //String codigoArticulo = request.getParameter("ca");
-                if (pedidoRealizacion == null) {
-                    try {
+                try {
+                    if (pedidoRealizacion == null) {
+
                         pedidoRealizacion = gbdP.getPedidoEnRealizacion(cliente.getCodigo());
                         if (pedidoRealizacion != null) {
-                            //pedidoRealizacion.addLinea(gbd.getArticulo(codigoArticulo));
-
-                        } else {
-                            pedidoRealizacion = new PedidoEnRealizacion(cliente);
-                            //pedidoRealizacion.addLinea(gbd.getArticulo(codigoArticulo));
+                            procesaParams(pedidoRealizacion, request);
                         }
-                    } catch (ExcepcionDeAplicacion ex) {
-                        Logger.getLogger(PedidoRealizacion.class.getName()).log(Level.SEVERE, null, ex);
+                    } else {
+                        procesaParams(pedidoRealizacion, request);
                     }
-                    sesion.setAttribute("pedidoRealizacion", pedidoRealizacion);
-                } else {
-                    //try {
-                        //pedidoRealizacion.addLinea(gbd.getArticulo(codigoArticulo));
-                    //} catch (ExcepcionDeAplicacion ex) {
-                        //Logger.getLogger(GestionaPedido.class.getName()).log(Level.SEVERE, null, ex);
-                    //}
+                    gbdP.grabaPedidoEnRealizacion(pedidoRealizacion);
+                } catch (ExcepcionDeAplicacion ex) {
+                    Logger.getLogger(GestionaPedido.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                RequestDispatcher resd = request.getRequestDispatcher("/clientes/pedidoRealizacion.jsp");
-                resd.forward(request, response);
+                response.sendRedirect(request.getContextPath() + "/clientes/AreaCliente");
                 break;
+
             case "Quitar":
                 String codigoLinea = request.getParameter("cl");
                 if (pedidoRealizacion == null) {
                     try {
                         pedidoRealizacion = gbdP.getPedidoEnRealizacion(cliente.getCodigo());
                         if (pedidoRealizacion != null) {
+                            procesaParams(pedidoRealizacion, request);
                             pedidoRealizacion.removeLinea(codigoLinea);
                             if (!pedidoRealizacion.getLineas().isEmpty()) {
                                 sesion.setAttribute("pedidoRealizacion", pedidoRealizacion);
@@ -134,6 +134,7 @@ public class GestionaPedido extends HttpServlet {
                     }
 
                 } else {
+                    procesaParams(pedidoRealizacion, request);
                     pedidoRealizacion.removeLinea(codigoLinea);
                     if (!pedidoRealizacion.getLineas().isEmpty()) {
                         sesion.setAttribute("pedidoRealizacion", pedidoRealizacion);
@@ -142,8 +143,33 @@ public class GestionaPedido extends HttpServlet {
                 RequestDispatcher reqd = request.getRequestDispatcher("/clientes/pedidoRealizacion.jsp");
                 reqd.forward(request, response);
                 break;
-            case "Cerrar pedido":
-                break;
+            case "Cerrar pedido": {
+                try {
+                    if (pedidoRealizacion == null) {
+                        pedidoRealizacion = gbdP.getPedidoEnRealizacion(cliente.getCodigo());
+                        if (pedidoRealizacion != null) {
+                            procesaParams(pedidoRealizacion, request);
+                        }
+                    } else {
+                        procesaParams(pedidoRealizacion, request);
+                    }
+                    //gbdP.grabaPedidoEnRealizacion(pedidoRealizacion);
+                    sesion.setAttribute("pedidoACerrar", pedidoRealizacion);
+                    request.setAttribute("msg", "Se va a proceder a cerrar su pedido en realización. ¿Está usted seguro?");
+                    request.setAttribute("siLink", "CierraPedido?accion=cerrar");
+                    request.setAttribute("noLink", "CierraPedido?accion=cancelar");
+                    RequestDispatcher reqdis = request.getRequestDispatcher("confirmacion.jsp");
+                    reqdis.forward(request, response);
+                } catch (ExcepcionDeAplicacion ex) {
+                    Logger.getLogger(GestionaPedido.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                try {
+                    gbdP.cierraPedido(pedidoRealizacion, cliente.getDireccion());
+                } catch (ExcepcionDeAplicacion ex) {
+                    Logger.getLogger(GestionaPedido.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            break;
             case "Cancelar":
                 if (pedidoRealizacion == null) {
                     try {
