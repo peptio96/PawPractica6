@@ -22,8 +22,8 @@ import paw.model.Pedido;
  * @author alruiz_o
  */
 public class VerPedido extends HttpServlet {
-    private GestorBD gbd = new GestorBD();
-    private GestorBDPedidos gbdP = new GestorBDPedidos();
+    private static GestorBD gbd = new GestorBD();
+    private static GestorBDPedidos gbdP = new GestorBDPedidos();
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -54,6 +54,9 @@ public class VerPedido extends HttpServlet {
                     request.setAttribute("link", "../Salir");
                     response.sendError(HttpServletResponse.SC_FORBIDDEN, "Usted no está autorizado para consultar esta información.");
                 }
+            } else {
+                request.setAttribute("link", "AreaCliente");
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Código de pedido inválido.");
             }
         } catch (ExcepcionDeAplicacion ex) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Código de pedido inválido.");

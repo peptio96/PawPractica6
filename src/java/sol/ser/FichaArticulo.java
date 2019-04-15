@@ -21,7 +21,6 @@ public class FichaArticulo extends HttpServlet {
                 Articulo art = new GestorBD().getArticulo(cart);
                 if (art == null) {
                     request.setAttribute("cart", cart);
-                    request.setAttribute("link", "index.html");
                     response.sendError(HttpServletResponse.SC_NOT_FOUND, "El artículo solicitado no existe");
                 } else {
                     request.setAttribute("art", art);
@@ -38,7 +37,6 @@ public class FichaArticulo extends HttpServlet {
             }
         } catch (ExcepcionDeAplicacion ex) {
             Logger.getLogger(BuscarArticulos.class.getName()).log(Level.SEVERE, null, ex);
-            request.setAttribute("link", "error.jsp");
             throw new ServletException(ex);
         }
     }

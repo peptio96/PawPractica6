@@ -25,7 +25,7 @@ import paw.util.servlet.UtilesServlet;
  */
 public class EditaCliente extends HttpServlet {
 
-    private GestorBD gbd = new GestorBD();
+    private static GestorBD gbd = new GestorBD();
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

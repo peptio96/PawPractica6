@@ -76,6 +76,14 @@
         <servlet-name>CierraPedido</servlet-name>
         <servlet-class>sol.ser.CierraPedido</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AnulaPedidoRealizacion</servlet-name>
+        <servlet-class>sol.ser.AnulaPedidoRealizacion</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VerPedidoAnulado</servlet-name>
+        <servlet-class>sol.ser.VerPedidoAnulado</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>BuscarArticulos</servlet-name>
         <url-pattern>/BuscarArticulos</url-pattern>
@@ -143,6 +151,14 @@
     <servlet-mapping>
         <servlet-name>CierraPedido</servlet-name>
         <url-pattern>/clientes/CierraPedido</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AnulaPedidoRealizacion</servlet-name>
+        <url-pattern>/clientes/AnulaPedidoRealizacion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VerPedidoAnulado</servlet-name>
+        <url-pattern>/clientes/VerPedidoAnulado</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

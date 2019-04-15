@@ -16,7 +16,7 @@
         <meta name="language" content="es-ES">
         <meta name="robots" content="index,follow">
 
-        <link href="../css/electrosa.css" rel="stylesheet" media="all" type="text/css">
+        <link href="${pageContext.request.contextPath}/css/electrosa.css" rel="stylesheet" media="all" type="text/css">
     </head>
     <body>
     <c:if test="${cliente==null}"><jsp:include page="cabecera.html"/></c:if>
@@ -35,8 +35,8 @@
                     <div>Error  ${empty requestScope['javax.servlet.error.status_code'] ? 'Error de aplicación' : requestScope['javax.servlet.error.status_code']} : ${empty requestScope['javax.servlet.error.message'] ? 'Error de aplicación' : requestScope['javax.servlet.error.message']}</div>
 
                     <div class="errorb">
-                        <c:if test="${cliente==null}"><a href="index.html">Salir de aqui</a></c:if>
-                        <c:if test="${cliente!=null}"><a href="index.jsp">Salir de aqui</a></c:if>
+                        <c:if test="${cliente==null}"><a href="${link != null ? link: "index.html"}">Salir de aqui</a></c:if>
+                        <c:if test="${cliente!=null}"><a href="${link != null ? link: "/pr6/clientes/AreaCliente"}">Salir de aqui</a></c:if>
                     </div>
                 </div>
                 <div class="clear"></div>

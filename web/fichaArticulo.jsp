@@ -21,39 +21,46 @@
     </head>
 
     <body>
-    <c:if test="${cliente==null}"><jsp:include page="cabecera.html"/></c:if>
-    <c:if test="${cliente!=null}"><jsp:include page="clientes/cabeceraRegistrado.html"/></c:if>
+        <c:if test="${cliente==null}"><jsp:include page="cabecera.html"/></c:if>
+        <c:if test="${cliente!=null}"><jsp:include page="clientes/cabeceraRegistrado.html"/></c:if>
 
-    <div class="sombra">
-        <div class="nucleo">
-            <div id="migas">
-                <a href="index.html" title="Inicio" >Inicio</a>&nbsp; | &nbsp; 
-                <a href="${anterior}" title="Hojear catalogo">Hojear catálogo</a>&nbsp; | &nbsp; ${art.codigo}	
+            <div class="sombra">
+                <div class="nucleo">
+                    <div id="migas">
+                        <a href="index.html" title="Inicio" >Inicio</a>&nbsp; | &nbsp; 
+                        <a href="${anterior}" title="Hojear catalogo">Hojear catálogo</a>&nbsp; | &nbsp; ${art.codigo}	
+                </div>
+
+                <div class="contenido">
+                    <h1>Ficha t&eacute;cnica de ${art.codigo}</h1>
+                    <div class="fotoDetalle">
+                        <img src="img/fotosElectr/${art.foto}" alt="${art.codigo}" longdesc="${art.nombre}">
+                    </div>
+                    <div class="datosDetalle">
+                        <h2>${art.nombre}</h2>
+                        <p>${art.descripcion}</p>
+                        <div class="precio">
+                            <span>Precio: ${art.pvp} &euro;</span>	
+                        </div>
+                        <div class="carroDetalle" >
+                            <c:if test="${cliente==null}">
+                                <img src="img/AddCart2-50.png" title="Añadir a mi pedido en realización">
+                            </c:if>
+                            <c:if test="${cliente!=null}">
+                                <a href="${pageContext.request.contextPath}/clientes/GestionaPedido?accion=Comprar&ca=${art.codigo}">
+                                    <img src="img/AddCart2-50.png" title="Añadir a mi pedido en realización">
+                                </a>
+                            </c:if>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
             </div>
 
-            <div class="contenido">
-                <h1>Ficha t&eacute;cnica de ${art.codigo}</h1>
-                <div class="fotoDetalle">
-                    <img src="img/fotosElectr/${art.foto}" alt="${art.codigo}" longdesc="${art.nombre}">
-                </div>
-                <div class="datosDetalle">
-                    <h2>${art.nombre}</h2>
-                    <p>${art.descripcion}</p>
-                    <div class="precio">
-                        <span>Precio: ${art.pvp} &euro;</span>	
-                    </div>
-                    <div class="carroDetalle" >
-                        <img src="img/AddCart2-50.png" title="Añadir a mi pedido en realización">
-                    </div>
-                </div>
-                <div class="clear"></div>
-            </div>
+            <div class="separa"></div>
+
+            <%@include file="pie.html" %>
+
         </div>
-
-        <div class="separa"></div>
-
-        <%@include file="pie.html" %>
-
-    </div>
-</body>
+    </body>
 </html>

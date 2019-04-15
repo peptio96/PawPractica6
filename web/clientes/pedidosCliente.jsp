@@ -132,7 +132,7 @@
                             <c:if test="${cuenta.count%2 == 0}"><tr class="par"></c:if>
                             <c:if test="${cuenta.count%2 != 0}"><tr></c:if>
                                 <td style="text-align: center"><img src="../img/pdf.gif" title="Descargar en PDF"/></td>
-                                <td>${pedidoAnulado.codigo}</td>
+                                <td><a href="VerPedidoAnulado?cp=${pedidoAnulado.codigo}">${pedidoAnulado.codigo}</a></td>
                                 <td><fmt:formatDate value="${pedidoAnulado.fechaCierre.time}"/></td>
                                 <td><fmt:formatDate value="${pedidoAnulado.fechaAnulacion.time}"/></td>
                             </tr>

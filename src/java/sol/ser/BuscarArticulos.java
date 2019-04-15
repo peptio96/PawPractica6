@@ -128,7 +128,6 @@ public class BuscarArticulos extends HttpServlet {
             }
         } catch (ExcepcionDeAplicacion ex) {
             Logger.getLogger(BuscarArticulos.class.getName()).log(Level.SEVERE, null, ex);
-            request.setAttribute("link", "error.jsp");
             throw new ServletException(ex);
         }
     }

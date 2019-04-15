@@ -24,7 +24,7 @@ import paw.util.UtilesString;
  */
 public class CambioContrasenia extends HttpServlet {
 
-    private GestorBD gbd = new GestorBD();
+    private static GestorBD gbd = new GestorBD();
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -47,7 +47,7 @@ public class CambioContrasenia extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("cambioContrasenia.html");
             rd.forward(request, response);
         } else {
-            request.setAttribute("link", "error.jsp");
+            request.setAttribute("link", "../clientes/AreaCliente");
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Petición de cambio de contraseña inválida. Es posible que el código de cambio haya expirado. Vuelva a solicitar el cambio.");
         }
     }

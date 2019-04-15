@@ -19,6 +19,7 @@
 
         <link href="../css/electrosa.css" rel="stylesheet" media="all" type="text/css">
         <link href="../css/clientes.css" rel="stylesheet" media="all" type="text/css">
+        <link href="../css/formulario.css" rel="stylesheet" media="all" type="text/css">
     </head>
 
     <body >
@@ -27,13 +28,13 @@
         <div class="sombra">
             <div class="nucleo">
                 <div id="migas">
-                    <a href="index.html" title="Inicio" >Inicio</a><!-- &nbsp; | &nbsp; 
-                    <a href="..." title="Otra cosa">Otra cosa</a>   -->	
+                    <a href="index.html" title="Inicio" >Inicio</a>
+                    
                 </div>
 
                 <div class="contenido">
-
-                    <h1>Registro de cliente   </h1>
+                    <p> |</p>
+                    <h1>Modificación de cliente   </h1>
                     <p>Para poder realizar pedidos on-line a trav&eacute;s de nuestro sistema de pedidos es necesario que se registre. Desde Electrosa le agradecemos su confianza en nosotros. </p>
                     <p>Introduzca los datos solicitados mediante el  siguiente formulario.   </p>
                     <c:if test="${alerta.isEmpty()==false}">
@@ -160,14 +161,6 @@
                             </div>
                         </fieldset>  
                     </form>
-                    <!--          <div style="font-size:75%;font-style: italic;line-height: 9pt">
-                                <p> En cumplimiento de lo previsto en la Ley Org&aacute;nica 15/1999, de 13 de   diciembre, de Protecci&oacute;n de Datos de Car&aacute;cter Personal y su normativa de   desarrollo, le informamos de que los datos que nos facilita por medio   del presente formulario, junto a los que sean obtenidos por raz&oacute;n de su   condici&oacute;n de Usuario Registrado del Sitio Web, ser&aacute;n incorporados a un   fichero titularidad de Distribuidora de Electrodom&eacute;sticos, S.A. (en adelante, &ldquo;ELECTROSA&rdquo;), con domicilio en la calle Luis de Ulloa, s.n.                 26004 - Logro&ntilde;o, para su   tratamiento con la finalidad de gestionar su alta como Usuario   Registrado. Asimismo, le informamos que mediante el presente registro se   le asigna un nombre de usuario y contrase&ntilde;a que le permitir&aacute; iniciar   sesi&oacute;n, en cualquier momento, como Usuario Registrado del Sitio Web y,   por tanto, acceder a todas las funcionalidades del mismo. </p>
-                                <p> Todos los campos que aparecen se&ntilde;alados con el texto &quot;requerido&quot; en el   presente formulario ser&aacute;n de obligada cumplimentaci&oacute;n, de tal modo que   la omisi&oacute;n de alguno de ellos podr&aacute; comportar la imposibilidad de que   podamos atender su solicitud de alta como Usuario Registrado. </p>
-                                <p> Usted otorga su consentimiento expreso para que sus datos   puedan ser tratados por ELECTROSA para remitirle informaci&oacute;n acerca de   ofertas y promociones de la empresa. </p>
-                                <p> A este respecto, le informamos de que la informaci&oacute;n promocional podr&aacute;   ser remitida tanto por v&iacute;a postal, como por correo electr&oacute;nico, SMS, o   cualquier otro medio de comunicaci&oacute;n electr&oacute;nica equivalente. En este   sentido, le informamos de que podr&aacute; oponerse en todo caso a que sus   datos sean tratados con esta finalidad, en cualquier momento, mediante   el env&iacute;o de un correo electr&oacute;nico a la siguiente direcci&oacute;n <strong>francisco.garcia@unirioja.es</strong> o usando los medios espec&iacute;ficos que se reconozcan en las propias comunicaciones. </p>
-                                <p> Le rogamos que nos comunique inmediatamente cualquier modificaci&oacute;n de   sus datos a fin de que la informaci&oacute;n contenida en nuestros ficheros   est&eacute; en todo momento actualizada y no contenga errores. En este sentido,   usted manifiesta que la informaci&oacute;n y los datos que nos ha facilitado   son exactos, actuales y veraces. </p>
-                                <p> Usted podr&aacute; ejercitar en cualquier momento su derecho de acceso,   rectificaci&oacute;n, cancelaci&oacute;n y oposici&oacute;n al tratamiento de sus datos, en   los t&eacute;rminos previstos legalmente, dirigi&eacute;ndose a la direcci&oacute;n   anteriormente se&ntilde;alada, as&iacute; como a la   siguiente direcci&oacute;n de correo electr&oacute;nico <strong>francisco.garcia@unirioja.es</strong>, y acompa&ntilde;ando copia de un documento oficial que acredite su identidad. </p>
-                              </div>-->
                 </div>
 
             </div>

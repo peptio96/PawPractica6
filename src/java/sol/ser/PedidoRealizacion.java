@@ -25,7 +25,7 @@ import paw.model.PedidoEnRealizacion;
  */
 public class PedidoRealizacion extends HttpServlet {
 
-    private GestorBDPedidos gbdP = new GestorBDPedidos();
+    private static GestorBDPedidos gbdP = new GestorBDPedidos();
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

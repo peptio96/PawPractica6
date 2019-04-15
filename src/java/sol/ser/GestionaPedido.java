@@ -153,7 +153,7 @@ public class GestionaPedido extends HttpServlet {
                     } else {
                         procesaParams(pedidoRealizacion, request);
                     }
-                    //gbdP.grabaPedidoEnRealizacion(pedidoRealizacion);
+                    gbdP.grabaPedidoEnRealizacion(pedidoRealizacion);
                     sesion.setAttribute("pedidoACerrar", pedidoRealizacion);
                     request.setAttribute("msg", "Se va a proceder a cerrar su pedido en realización. ¿Está usted seguro?");
                     request.setAttribute("siLink", "CierraPedido?accion=cerrar");
@@ -163,34 +163,23 @@ public class GestionaPedido extends HttpServlet {
                 } catch (ExcepcionDeAplicacion ex) {
                     Logger.getLogger(GestionaPedido.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                try {
-                    gbdP.cierraPedido(pedidoRealizacion, cliente.getDireccion());
-                } catch (ExcepcionDeAplicacion ex) {
-                    Logger.getLogger(GestionaPedido.class.getName()).log(Level.SEVERE, null, ex);
-                }
             }
             break;
             case "Cancelar":
+
                 if (pedidoRealizacion == null) {
                     try {
                         pedidoRealizacion = gbdP.getPedidoEnRealizacion(cliente.getCodigo());
-                        if (pedidoRealizacion != null) {
-                            gbdP.anulaPedido(pedidoRealizacion);
-                            sesion.setAttribute("pedidoRealizacion", null);
-                        }
                     } catch (ExcepcionDeAplicacion ex) {
                         Logger.getLogger(PedidoRealizacion.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
-                } else {
-                    try {
-                        gbdP.anulaPedido(pedidoRealizacion);
-                    } catch (ExcepcionDeAplicacion ex) {
-                        Logger.getLogger(GestionaPedido.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    sesion.setAttribute("pedidoRealizacion", null);
                 }
-                RequestDispatcher reqdis = request.getRequestDispatcher("/clientes/pedidoRealizacion.jsp");
+                sesion.setAttribute("pedidoACancelar", pedidoRealizacion);
+                request.setAttribute("msg", "Va a proceder a eliminar su pedido en realización. ¿Está usted seguro?");
+                request.setAttribute("siLink", "AnulaPedidoRealizacion?accion=anular");
+                request.setAttribute("noLink", "AnulaPedidoRealizacion?accion=cancelar");
+                RequestDispatcher reqdis = request.getRequestDispatcher("confirmacion.jsp");
                 reqdis.forward(request, response);
                 break;
             default:

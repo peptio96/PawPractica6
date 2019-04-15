@@ -42,13 +42,13 @@ public class Salir extends HttpServlet {
         GestorBDPedidos gbdP = new GestorBDPedidos();
         PedidoEnRealizacion pedidoRealizacion = (PedidoEnRealizacion) sesion.getAttribute("pedidoRealizacion");
         try {
-                    if (pedidoRealizacion == null) {
-                        pedidoRealizacion = gbdP.getPedidoEnRealizacion(cliente.getCodigo());
-                    }
-                    gbdP.grabaPedidoEnRealizacion(pedidoRealizacion);
-                } catch (ExcepcionDeAplicacion ex) {
-                    Logger.getLogger(GestionaPedido.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            if (pedidoRealizacion != null) {
+                gbdP.grabaPedidoEnRealizacion(pedidoRealizacion);
+            }
+
+        } catch (ExcepcionDeAplicacion ex) {
+            Logger.getLogger(GestionaPedido.class.getName()).log(Level.SEVERE, null, ex);
+        }
         sesion.invalidate();
         response.sendRedirect("index.html");
     }

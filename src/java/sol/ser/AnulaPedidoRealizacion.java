@@ -6,7 +6,6 @@
 package sol.ser;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -15,16 +14,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import paw.bd.GestorBDPedidos;
-import paw.model.Cliente;
 import paw.model.ExcepcionDeAplicacion;
-import paw.model.Pedido;
 import paw.model.PedidoEnRealizacion;
 
 /**
  *
  * @author alruiz_o
  */
-public class CierraPedido extends HttpServlet {
+public class AnulaPedidoRealizacion extends HttpServlet {
     private static GestorBDPedidos gbdP = new GestorBDPedidos();
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -39,29 +36,37 @@ public class CierraPedido extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession sesion = request.getSession();
-        Cliente cliente = (Cliente) sesion.getAttribute("cliente");
-        PedidoEnRealizacion pedidoRealizacion = (PedidoEnRealizacion) sesion.getAttribute("pedidoACerrar");
-        if (pedidoRealizacion == null) {
-            request.setAttribute("link", "PedidoRealizacion");
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "La aplicación no puede determinar el pedido a cerrar.");
+        PedidoEnRealizacion pedidoACancelar = (PedidoEnRealizacion) sesion.getAttribute("pedidoACancelar");
+        if (pedidoACancelar == null) {
+            request.setAttribute("link", "AreaCliente");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "La aplicación no puede determinar el pedido a anular.");
         } else {
+            sesion.removeAttribute("pedidoACancelar");
             String accion = (String) request.getParameter("accion");
-            if (accion.equals("cerrar")) {
-                
+            if (accion.equals("anular")) {
                 try {
-                    System.out.println(pedidoRealizacion.toString());
-                    System.out.println(cliente.getDireccion().toString());
-                    Pedido pedidoCerrado = gbdP.cierraPedido(pedidoRealizacion, cliente.getDireccion());
-                    sesion.removeAttribute("pedidoACerrar");
+                    gbdP.anulaPedido(pedidoACancelar);
                     sesion.removeAttribute("pedidoRealizacion");
-                    response.sendRedirect("VerPedido?cp=" + pedidoCerrado.getCodigo());
+                    response.sendRedirect("AreaCliente");
                 } catch (ExcepcionDeAplicacion ex) {
-                    Logger.getLogger(CierraPedido.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(AnulaPedidoRealizacion.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
-                sesion.removeAttribute("pedidoACerrar");
                 response.sendRedirect("PedidoRealizacion");
             }
         }
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
     }
 }
