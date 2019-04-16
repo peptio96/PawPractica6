@@ -49,50 +49,35 @@ public class GestionaPedido extends HttpServlet {
         HttpSession sesion = request.getSession();
         Cliente cliente = (Cliente) sesion.getAttribute("cliente");
         PedidoEnRealizacion pedidoRealizacion = (PedidoEnRealizacion) sesion.getAttribute("pedidoRealizacion");
+        try {
+            if (pedidoRealizacion == null) {
+                pedidoRealizacion = gbdP.getPedidoEnRealizacion(cliente.getCodigo());
+                if (pedidoRealizacion == null) {
+                    pedidoRealizacion = new PedidoEnRealizacion(cliente);
+                }
+                sesion.setAttribute("pedidoRealizacion", pedidoRealizacion);
+            }
+        } catch (ExcepcionDeAplicacion ex) {
+            Logger.getLogger(GestionaPedido.class.getName()).log(Level.SEVERE, null, ex);
+        }
         switch (valorAccion) {
             case "Comprar":
-                String codigoArticulo = request.getParameter("ca");
-                if (pedidoRealizacion == null) {
-                    try {
-                        pedidoRealizacion = gbdP.getPedidoEnRealizacion(cliente.getCodigo());
-                        if (pedidoRealizacion != null) {
-                            pedidoRealizacion.addLinea(gbd.getArticulo(codigoArticulo));
-
-                        } else {
-                            pedidoRealizacion = new PedidoEnRealizacion(cliente);
-                            pedidoRealizacion.addLinea(gbd.getArticulo(codigoArticulo));
-                        }
-                    } catch (ExcepcionDeAplicacion ex) {
-                        Logger.getLogger(PedidoRealizacion.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                try {
+                    String codigoArticulo = request.getParameter("ca");
+                    pedidoRealizacion.addLinea(gbd.getArticulo(codigoArticulo));
                     sesion.setAttribute("pedidoRealizacion", pedidoRealizacion);
-                } else {
-                    try {
-                        pedidoRealizacion.addLinea(gbd.getArticulo(codigoArticulo));
-                    } catch (ExcepcionDeAplicacion ex) {
-                        Logger.getLogger(GestionaPedido.class.getName()).log(Level.SEVERE, null, ex);
+                    String urlAnterior = request.getHeader("Referer");
+                    if (urlAnterior.contains("BuscarArticulos")) {
+                        sesion.setAttribute("urlAnterior", urlAnterior);
                     }
+                    response.sendRedirect("PedidoRealizacion");
+                } catch (ExcepcionDeAplicacion ex) {
+                    Logger.getLogger(GestionaPedido.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                String urlAnterior = request.getHeader("Referer");
-                if (urlAnterior.contains("BuscarArticulos")) {
-                    sesion.setAttribute("urlAnterior", urlAnterior);
-                }
-                response.sendRedirect("PedidoRealizacion");
                 break;
             case "Seguir comprando":
                 String anterior = (String) sesion.getAttribute("urlAnterior");
-                if (pedidoRealizacion == null) {
-                    try {
-                        pedidoRealizacion = gbdP.getPedidoEnRealizacion(cliente.getCodigo());
-                        if (pedidoRealizacion != null) {
-                            procesaParams(pedidoRealizacion, request);
-                        }
-                    } catch (ExcepcionDeAplicacion ex) {
-                        Logger.getLogger(PedidoRealizacion.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                } else {
-                    procesaParams(pedidoRealizacion, request);
-                }
+                procesaParams(pedidoRealizacion, request);
                 if (anterior == null) {
                     response.sendRedirect(request.getContextPath() + "/BuscarArticulos");
                 } else {
@@ -101,58 +86,26 @@ public class GestionaPedido extends HttpServlet {
                 break;
             case "Guardar pedido":
                 try {
-                    if (pedidoRealizacion == null) {
-
-                        pedidoRealizacion = gbdP.getPedidoEnRealizacion(cliente.getCodigo());
-                        if (pedidoRealizacion != null) {
-                            procesaParams(pedidoRealizacion, request);
-                        }
-                    } else {
-                        procesaParams(pedidoRealizacion, request);
-                    }
+                    procesaParams(pedidoRealizacion, request);
                     gbdP.grabaPedidoEnRealizacion(pedidoRealizacion);
+                    response.sendRedirect(request.getContextPath() + "/clientes/AreaCliente");
                 } catch (ExcepcionDeAplicacion ex) {
                     Logger.getLogger(GestionaPedido.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                response.sendRedirect(request.getContextPath() + "/clientes/AreaCliente");
                 break;
-
             case "Quitar":
                 String codigoLinea = request.getParameter("cl");
-                if (pedidoRealizacion == null) {
-                    try {
-                        pedidoRealizacion = gbdP.getPedidoEnRealizacion(cliente.getCodigo());
-                        if (pedidoRealizacion != null) {
-                            procesaParams(pedidoRealizacion, request);
-                            pedidoRealizacion.removeLinea(codigoLinea);
-                            if (!pedidoRealizacion.getLineas().isEmpty()) {
-                                sesion.setAttribute("pedidoRealizacion", pedidoRealizacion);
-                            }
-                        }
-                    } catch (ExcepcionDeAplicacion ex) {
-                        Logger.getLogger(PedidoRealizacion.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
-                } else {
-                    procesaParams(pedidoRealizacion, request);
-                    pedidoRealizacion.removeLinea(codigoLinea);
-                    if (!pedidoRealizacion.getLineas().isEmpty()) {
-                        sesion.setAttribute("pedidoRealizacion", pedidoRealizacion);
-                    }
+                procesaParams(pedidoRealizacion, request);
+                pedidoRealizacion.removeLinea(codigoLinea);
+                if (!pedidoRealizacion.getLineas().isEmpty()) {
+                    sesion.setAttribute("pedidoRealizacion", pedidoRealizacion);
                 }
                 RequestDispatcher reqd = request.getRequestDispatcher("/clientes/pedidoRealizacion.jsp");
                 reqd.forward(request, response);
                 break;
-            case "Cerrar pedido": {
+            case "Cerrar pedido":
                 try {
-                    if (pedidoRealizacion == null) {
-                        pedidoRealizacion = gbdP.getPedidoEnRealizacion(cliente.getCodigo());
-                        if (pedidoRealizacion != null) {
-                            procesaParams(pedidoRealizacion, request);
-                        }
-                    } else {
-                        procesaParams(pedidoRealizacion, request);
-                    }
+                    procesaParams(pedidoRealizacion, request);
                     gbdP.grabaPedidoEnRealizacion(pedidoRealizacion);
                     sesion.setAttribute("pedidoACerrar", pedidoRealizacion);
                     request.setAttribute("msg", "Se va a proceder a cerrar su pedido en realización. ¿Está usted seguro?");
@@ -163,18 +116,8 @@ public class GestionaPedido extends HttpServlet {
                 } catch (ExcepcionDeAplicacion ex) {
                     Logger.getLogger(GestionaPedido.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
-            break;
+                break;
             case "Cancelar":
-
-                if (pedidoRealizacion == null) {
-                    try {
-                        pedidoRealizacion = gbdP.getPedidoEnRealizacion(cliente.getCodigo());
-                    } catch (ExcepcionDeAplicacion ex) {
-                        Logger.getLogger(PedidoRealizacion.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
-                }
                 sesion.setAttribute("pedidoACancelar", pedidoRealizacion);
                 request.setAttribute("msg", "Va a proceder a eliminar su pedido en realización. ¿Está usted seguro?");
                 request.setAttribute("siLink", "AnulaPedidoRealizacion?accion=anular");

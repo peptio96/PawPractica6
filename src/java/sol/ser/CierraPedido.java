@@ -47,10 +47,7 @@ public class CierraPedido extends HttpServlet {
         } else {
             String accion = (String) request.getParameter("accion");
             if (accion.equals("cerrar")) {
-                
                 try {
-                    System.out.println(pedidoRealizacion.toString());
-                    System.out.println(cliente.getDireccion().toString());
                     Pedido pedidoCerrado = gbdP.cierraPedido(pedidoRealizacion, cliente.getDireccion());
                     sesion.removeAttribute("pedidoACerrar");
                     sesion.removeAttribute("pedidoRealizacion");
